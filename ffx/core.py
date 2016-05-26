@@ -1032,6 +1032,9 @@ class TimeoutError(Exception):
 
 def timeout(seconds_before_timeout):
     def decorate(f):
+        if not hasattr(signal, "SIGALRM"):
+            return f
+
         def handler(signum, frame):
             raise TimeoutError()
 
